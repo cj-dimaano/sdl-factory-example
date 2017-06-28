@@ -1,8 +1,9 @@
 # Ignore everything ...
 *
 
-# ... except this file ...
+# ... except these files ...
 !.gitignore
+!makefile
 
 # ... these file types ...
 !*.md
@@ -12,4 +13,5 @@
 !*.png
 
 # ... and subdirectories.
-!*/
+!src/
+!res/
