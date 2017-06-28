@@ -1,0 +1,15 @@
+# Ignore everything ...
+*
+
+# ... except this file ...
+!.gitignore
+
+# ... these file types ...
+!*.md
+!*.cpp
+!*.h
+!*.ico
+!*.png
+
+# ... and subdirectories.
+!*/
