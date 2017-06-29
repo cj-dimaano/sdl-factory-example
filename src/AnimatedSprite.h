@@ -11,6 +11,11 @@
 
 #include "Sprite.h"
 
+/**
+ * `AnimatedSprite`
+ *
+ *   Represents an animated game sprite.
+ */
 class AnimatedSprite : public Sprite {
 
   /**
