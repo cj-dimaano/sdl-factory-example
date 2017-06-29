@@ -1,5 +1,6 @@
 /*******************************************************************************
 @file `Sprite.h`
+  Created June 28, 2017
 
 @author CJ Dimaano
   <c.j.s.dimaano@gmail.com>
