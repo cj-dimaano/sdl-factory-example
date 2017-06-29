@@ -10,6 +10,7 @@
 #define ANIMATEDSPRITE_H
 
 #include "Sprite.h"
+#include <SDL2/SDL.h>
 
 /**
  * `AnimatedSprite`
@@ -125,6 +126,34 @@ public:
    *   Sets the current frame to be drawn.
    */
   void SetFrame(const int index);
+
+  /**
+   * `SetFrameCount`
+   *
+   *   Sets the number of frames in the sprite region.
+   */
+  void SetFrameCount(const int value);
+
+  /**
+   * `SetFramesRegion`
+   *
+   *   Sets the region of the sprite sheet containing the animation frames.
+   */
+  void SetFramesRegion(SDL_Rect value);
+
+  /**
+   * `SetFramesRegionPoint`
+   *
+   *   Sets the point of the animation frames region on the sprite sheet.
+   */
+  void SetFramesRegionPoint(const int x, const int y);
+
+  /**
+   * `SetFramesRegionSize`
+   *
+   *   Sets the size of the animation frames region on the sprite sheet.
+   */
+  void SetFramesRegionSize(const int height, const int width);
 
   /**
    * `Update`

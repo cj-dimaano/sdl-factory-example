@@ -13,15 +13,10 @@ AnimatedSprite::AnimatedSprite(SDL_Texture *const spritesheet,
                                const SDL_Rect drawRegion, const int frameHeight,
                                const int frameWidth, const int frameCount,
                                const unsigned int frameDelay)
-    : Sprite(spritesheet, framesRegion, drawRegion) {
+    : Sprite(spritesheet, framesRegion, drawRegion), _frameDelay(frameDelay),
+      _frameTick(0), _frameCount(frameCount), _currentFrame(0), _isPaused(true),
+      _framesRegion(framesRegion) {
   SetSpriteRegionSize(frameHeight, frameWidth);
-
-  _framesRegion = framesRegion;
-  _frameCount = frameCount;
-  _frameDelay = frameDelay;
-  _frameTick = 0;
-  _currentFrame = 0;
-  _isPaused = true;
 }
 
 void AnimatedSprite::Play() { _isPaused = false; }
@@ -41,6 +36,25 @@ void AnimatedSprite::SetFrame(const int index) {
       _framesRegion.x + _currentFrame * spriteRegion.w % _framesRegion.w;
   spriteRegion.y =
       _framesRegion.y + _currentFrame * spriteRegion.h % _framesRegion.h;
+}
+
+void AnimatedSprite::SetFrameCount(const int value) { _frameCount = value; }
+
+void AnimatedSprite::SetFramesRegion(SDL_Rect value) {
+  _framesRegion = value;
+  SetFrame(0);
+}
+
+void AnimatedSprite::SetFramesRegionPoint(const int x, const int y) {
+  _framesRegion.x = x;
+  _framesRegion.y = y;
+  SetFrame(0);
+}
+
+void AnimatedSprite::SetFramesRegionSize(const int height, const int width) {
+  _framesRegion.h = height;
+  _framesRegion.w = width;
+  SetFrame(0);
 }
 
 void AnimatedSprite::Update(unsigned int dt) {
