@@ -14,9 +14,7 @@ AnimatedSprite::AnimatedSprite(SDL_Texture *const spritesheet,
                                const int frameWidth, const int frameCount,
                                const unsigned int frameDelay)
     : Sprite(spritesheet, framesRegion, drawRegion) {
-  SDL_Rect &spriteRegion = GetSpriteRegion();
-  spriteRegion.h = frameHeight;
-  spriteRegion.w = frameWidth;
+  SetSpriteRegionSize(frameHeight, frameWidth);
 
   _framesRegion = framesRegion;
   _frameCount = frameCount;

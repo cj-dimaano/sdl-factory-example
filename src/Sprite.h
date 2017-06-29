@@ -72,6 +72,20 @@ public:
   void SetSpriteRegion(const SDL_Rect value);
 
   /**
+   * `SetSpriteRegionLocation`
+   *
+   *   Sets the coordinates of the sprite region on the spritesheet.
+   */
+  void SetSpriteRegionLocation(const int x, const int y);
+
+  /**
+   * `SetSpriteRegionSize`
+   *
+   *   Sets the height and width of the sprite region on the spritesheet.
+   */
+  void SetSpriteRegionSize(const int height, const int width);
+
+  /**
    * `GetDrawRegion`
    *
    *   Gets the draw region by reference.
@@ -84,6 +98,20 @@ public:
    *  Sets the draw region to the given value.
    */
   void SetDrawRegion(const SDL_Rect value);
+
+  /**
+   * `SetDrawRegionLocation`
+   *
+   *   Sets the coordinates of the sprite region on the renderer.
+   */
+  void SetDrawRegionLocation(const int x, const int y);
+
+  /**
+   * `SetDrawRegionSize`
+   *
+   *   Sets the height and width of the sprite region on the renderer.
+   */
+  void SetDrawRegionSize(const int height, const int width);
 
   /**
    * `Draw`
