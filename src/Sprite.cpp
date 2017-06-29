@@ -8,7 +8,7 @@
 
 #include "Sprite.h"
 
-static void SetRegionLocation(SDL_Rect &dst, const int x, const int y) {
+static void SetRegionPoint(SDL_Rect &dst, const int x, const int y) {
   dst.x = x;
   dst.y = y;
 }
@@ -19,18 +19,16 @@ static void SetRegionSize(SDL_Rect &dst, const int height, const int width) {
 }
 
 Sprite::Sprite(SDL_Texture *const spritesheet, const SDL_Rect spriteRegion,
-               const SDL_Rect drawRegion) {
-  _spritesheet = spritesheet;
-  _spriteRegion = spriteRegion;
-  _drawRegion = drawRegion;
-}
+               const SDL_Rect drawRegion)
+    : _spritesheet(spritesheet), _spriteRegion(spriteRegion),
+      _drawRegion(drawRegion) {}
 
 SDL_Rect &Sprite::GetSpriteRegion() { return _spriteRegion; }
 
 void Sprite::SetSpriteRegion(const SDL_Rect value) { _spriteRegion = value; }
 
-void Sprite::SetSpriteRegionLocation(const int x, const int y) {
-  SetRegionLocation(_spriteRegion, x, y);
+void Sprite::SetSpriteRegionPoint(const int x, const int y) {
+  SetRegionPoint(_spriteRegion, x, y);
 }
 
 void Sprite::SetSpriteRegionSize(const int height, const int width) {
@@ -41,8 +39,8 @@ SDL_Rect &Sprite::GetDrawRegion() { return _drawRegion; }
 
 void Sprite::SetDrawRegion(const SDL_Rect value) { _drawRegion = value; }
 
-void Sprite::SetDrawRegionLocation(const int x, const int y) {
-  SetRegionLocation(_drawRegion, x, y);
+void Sprite::SetDrawRegionPoint(const int x, const int y) {
+  SetRegionPoint(_drawRegion, x, y);
 }
 
 void Sprite::SetDrawRegionSize(const int height, const int width) {
