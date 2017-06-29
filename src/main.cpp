@@ -6,6 +6,8 @@
   <c.j.s.dimaano@gmail.com>
 *******************************************************************************/
 
+#include "AnimatedSprite.h"
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_log.h>
@@ -174,7 +176,6 @@ static void update(unsigned int dt) {}
 
 static void draw() {
   SDL_RenderClear(sdlRenderer);
-  SDL_RenderCopy(sdlRenderer, factorySpritesheet, NULL, NULL);
   SDL_RenderPresent(sdlRenderer);
 }
 
@@ -195,7 +196,7 @@ static SDL_Texture *loadTexture(const char *const file) {
 
   /*** Set the transparent pixel color. ***/
   SDL_SetColorKey(surface, SDL_TRUE,
-                  SDL_MapRGB(surface->format, 0xFF, 0xFF, 0));
+                  SDL_MapRGB(surface->format, 0xFF, 0, 0xFF));
 
   /*** Create texture from surface pixels. ***/
   SDL_Texture *texture = SDL_CreateTextureFromSurface(sdlRenderer, surface);
