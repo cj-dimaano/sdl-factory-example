@@ -4,6 +4,7 @@
 # ... except these files ...
 !.gitignore
 !makefile
+!.clang-format
 
 # ... these file types ...
 !*.md
@@ -11,7 +12,9 @@
 !*.h
 !*.ico
 !*.png
+!*.json
 
 # ... and subdirectories.
 !src/
 !res/
+!.vscode/
