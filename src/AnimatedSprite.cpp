@@ -36,7 +36,6 @@ void AnimatedSprite::SetFrame(const int index) {
           (_currentFrame % (_framesRegion.w / spriteRegion.w)) * spriteRegion.w;
   int y = _framesRegion.y +
           (_currentFrame / (_framesRegion.w / spriteRegion.w)) * spriteRegion.h;
-  printf("%d, %d\n", x, y);
   spriteRegion.x = x;
   spriteRegion.y = y;
 }
