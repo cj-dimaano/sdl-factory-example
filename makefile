@@ -2,17 +2,20 @@
 # Target executable
 TARGET=factory
 
-# Code Compiler
-CC=clang++
+# C++ Compiler
+CXX=clang++
+
+# C++ Compiler flags
+CXXFLAGS=-Weverything -O3
+
+# C Preprocessor flags
+CPPFLAGS=-I/usr/include
+
+# Libraries
+LDLIBS=-lSDL2 -lSDL2_image
 
 # Code Formatter
 CF=clang-format
-
-# Compiler options
-OPTS=-Weverything -O3 -I/usr/include
-
-# Libraries
-LIBS=-lSDL2 -lSDL2_image
 
 # Source directory
 SRCDIR=src
@@ -32,19 +35,36 @@ SRCS=$(wildcard $(SRCDIR)/*.cpp)
 # Header files
 HDRS=$(wildcard $(SRCDIR)/*.h)
 
+# Resource files
+RESS=$(patsubst $(RESDIR)/%, $(BINDIR)/%, $(wildcard $(RESDIR)/*))
+
 # Object files
 OBJS=$(addprefix $(INTDIR)/, $(notdir $(SRCS:.cpp=.o)))
 
-# Generic make object rule
-$(INTDIR)/%.o: $(SRCDIR)/%.cpp $(HDRS)
-	mkdir -p $(INTDIR) && $(CC) -c -o $@ $< $(OPTS)
 
 # Default make rule
-$(BINDIR)/$(TARGET): $(OBJS)
-	mkdir -p $(BINDIR) && $(CC) -o $@ $^ $(OPTS) $(LIBS) && cp $(RESDIR)/* $(BINDIR)
+$(BINDIR)/$(TARGET): $(OBJS) | $(BINDIR) $(RESS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDLIBS) -o $@ $^
+
+# Generic make object rule
+$(INTDIR)/%.o: $(SRCDIR)/%.cpp $(HDRS) | $(INTDIR)
+	$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) $(filter %.cpp, $<) -o $@
+
+# Copy resource rule
+$(BINDIR)/%: $(RESDIR)/% | $(BINDIR)
+	cp $< $@
+
+# Make directory rules
+$(INTDIR):
+	mkdir $(INTDIR)
+
+$(BINDIR):
+	mkdir $(BINDIR)
 
 
-.PHONY: clean format
+
+# Phony rules
+.PHONY: clean format debug
 
 clean:
 	rm -rf $(INTDIR) $(BINDIR)
