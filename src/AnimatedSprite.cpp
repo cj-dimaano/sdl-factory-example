@@ -32,10 +32,13 @@ void AnimatedSprite::SetFrameDelay(const unsigned int value) {
 void AnimatedSprite::SetFrame(const int index) {
   SDL_Rect &spriteRegion = GetSpriteRegion();
   _currentFrame = index % _frameCount;
-  spriteRegion.x =
-      _framesRegion.x + _currentFrame * spriteRegion.w % _framesRegion.w;
-  spriteRegion.y =
-      _framesRegion.y + _currentFrame * spriteRegion.h / _framesRegion.h;
+  int x = _framesRegion.x +
+          (_currentFrame % (_framesRegion.w / spriteRegion.w)) * spriteRegion.w;
+  int y = _framesRegion.y +
+          (_currentFrame / (_framesRegion.w / spriteRegion.w)) * spriteRegion.h;
+  printf("%d, %d\n", x, y);
+  spriteRegion.x = x;
+  spriteRegion.y = y;
 }
 
 void AnimatedSprite::SetFrameCount(const int value) { _frameCount = value; }
