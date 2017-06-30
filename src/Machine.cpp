@@ -15,8 +15,6 @@ Machine::Machine(AnimatedSprite sprite, SDL_Point factoryPoint,
   _sprite.Play();
 }
 
-Machine::~Machine() {}
-
 void Machine::Update(unsigned int dt) {
   _busyTick += (_isPaused || IsReady() ? 0 : dt);
   _sprite.Update(dt);
@@ -59,9 +57,3 @@ void Machine::SetDrawPoint(const int x, const int y) {
 }
 
 AnimatedSprite &Machine::GetMachineSprite() { return _sprite; }
-
-void Machine::OnUpdate(unsigned int) {}
-
-void Machine::OnBusy() {}
-
-void Machine::OnIdle() {}
