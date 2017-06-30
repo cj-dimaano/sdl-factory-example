@@ -35,7 +35,7 @@ void AnimatedSprite::SetFrame(const int index) {
   spriteRegion.x =
       _framesRegion.x + _currentFrame * spriteRegion.w % _framesRegion.w;
   spriteRegion.y =
-      _framesRegion.y + _currentFrame * spriteRegion.h % _framesRegion.h;
+      _framesRegion.y + _currentFrame * spriteRegion.h / _framesRegion.h;
 }
 
 void AnimatedSprite::SetFrameCount(const int value) { _frameCount = value; }
