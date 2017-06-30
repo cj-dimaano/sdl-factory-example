@@ -23,9 +23,17 @@
     {
       "taskName": "clean",
       "command": "make",
-      "suppressTaskName": false,
+      "suppressTaskName": true,
       "args": [
         "clean"
+      ]
+    },
+    {
+      "taskName": "format all",
+      "command": "make",
+      "suppressTaskName": true,
+      "args": [
+        "format"
       ]
     }
   ]
