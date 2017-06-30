@@ -23,7 +23,7 @@ StructureMachine::StructureMachine(SDL_Texture *const spritesheet,
                              2, 1000),
               factoryPoint, busyDelay),
       _progressSprite(spritesheet, progressSpriteRegion, drawRegion, 16, 16, 10,
-                      250),
+                      100),
       _busySpriteRegion(busySpriteRegion), _idleSpriteRegion(idleSpriteRegion) {
   if (IsReady())
     OnIdle();
