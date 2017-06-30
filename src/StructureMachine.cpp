@@ -25,6 +25,10 @@ StructureMachine::StructureMachine(SDL_Texture *const spritesheet,
       _progressSprite(spritesheet, progressSpriteRegion, drawRegion, 16, 16, 10,
                       250),
       _busySpriteRegion(busySpriteRegion), _idleSpriteRegion(idleSpriteRegion) {
+  if (IsReady())
+    OnIdle();
+  else
+    OnBusy();
 }
 
 void StructureMachine::Draw(SDL_Renderer *sdlRenderer) {
@@ -40,8 +44,10 @@ void StructureMachine::SetDrawPoint(const int x, const int y) {
 }
 
 void StructureMachine::OnUpdate(unsigned int dt) {
-  _progressSprite.SetFrame(GetProgress() % (100 / 9));
-  _progressSprite.Update(dt);
+  if (IsReady())
+    _progressSprite.Update(dt);
+  else
+    _progressSprite.SetFrame(9 * GetProgress() / 100);
 }
 
 void StructureMachine::OnBusy() {
