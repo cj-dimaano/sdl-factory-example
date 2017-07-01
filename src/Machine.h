@@ -183,14 +183,14 @@ protected:
    *
    *   Event when the machine changes from idle to busy.
    */
-  virtual void OnBusy(){}
+  virtual void OnBusy() {}
 
   /**
    * `OnIdle`
    *
    *   Event when the machine changes from busy to idle.
    */
-  virtual void OnIdle(){}
+  virtual void OnIdle() {}
 };
 
 #endif
