@@ -28,6 +28,7 @@ static void *loop3(SortMachinesState &);
 /* SortMachinesAlgorithm implementation ***************************************/
 
 bool SortMachinesAlgorithm::Begin() {
+  GetState().end = GetState().machines.size();
   return (nextFn = reinterpret_cast<void *(*)(SortMachinesState &)>(
               loop1Begin(GetState()))) != NULL;
 }
