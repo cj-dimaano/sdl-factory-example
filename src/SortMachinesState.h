@@ -19,7 +19,7 @@
  *
  *   Iterative state for sorting machines by distance.
  */
-class SortMachinesState : public IterativeState<std::vector<Machine *> > {
+class SortMachinesState : public IterativeState<std::vector<Machine *>> {
 
 public:
   /**
