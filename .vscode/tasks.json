@@ -17,7 +17,7 @@
       "command": "make",
       "suppressTaskName": true,
       "args": [
-        "CXXFLAGS=-g"
+        "CXXFLAGS=-g -std=c++14"
       ]
     },
     {
