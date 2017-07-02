@@ -97,11 +97,11 @@ protected:
 
 private:
   /**
-   * `IdleChanged`
+   * `IsIdleChanged`
    *
    *   Handles the idle changed event.
    */
-  static void IdleChanged(EventPayload<Machine> &payload);
+  static void IsIdleChanged(EventPayload<Machine> &payload);
 };
 
 #endif

@@ -32,8 +32,12 @@ public:
    *
    * @param eventSource
    *   The source object of the emitted event.
+   *
+   * @param eventTarget
+   *   The target object of the emitted event.
    */
-  EventPayload(S *const eventSource) : source(eventSource) {}
+  EventPayload(S *const eventSource, void *const eventTarget)
+      : source(eventSource), target(eventTarget) {}
 
   /**
    * `~EventPayload`
@@ -48,6 +52,13 @@ public:
    *   The source object of the emitted event.
    */
   S *const source;
+
+  /**
+   * `target`
+   *
+   *   The targeet object of the emitted event.
+   */
+  void *const target;
 };
 
 /**
@@ -76,7 +87,9 @@ template <class S, class P = EventPayload<S>> class EventEmitter {
    *
    *   Keeps track of events and associated event handlers.
    */
-  std::unordered_map<std::string, std::list<EventHandler<S, P>>> events;
+  std::unordered_map<std::string,
+                     std::list<std::pair<void *const, EventHandler<S, P>>>>
+      events;
 
 public:
   /**
@@ -92,8 +105,10 @@ public:
    *   Adds an event type to the events catalog.
    */
   void AddEvent(std::string value) {
-    events.insert(std::pair<std::string, std::list<EventHandler<S, P>>>(
-        value, std::list<EventHandler<S, P>>()));
+    events.insert(
+        std::pair<std::string,
+                  std::list<std::pair<void *const, EventHandler<S, P>>>>(
+            value, std::list<std::pair<void *const, EventHandler<S, P>>>()));
   }
 
   /**
@@ -101,13 +116,15 @@ public:
    *
    *   Adds an event handler to an event in the catalog.
    */
-  void AddEventHandler(std::string event, EventHandler<S, P> handler) {
+  void AddEventHandler(std::string event, void *const target,
+                       EventHandler<S, P> handler) {
     auto handlers = events.find(event);
     if (handlers == events.end())
       SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Event does not exist: %s\n",
                    event.c_str());
     else
-      handlers->second.push_back(handler);
+      handlers->second.push_back(
+          std::pair<void *const, EventHandler<S, P>>(target, handler));
   }
 
   /**
@@ -115,29 +132,38 @@ public:
    *
    *   Removes an event handler from an event in the catalog.
    */
-  void RemoveEventHandler(std::string event, EventHandler<S, P> handler) {
+  void RemoveEventHandler(std::string event, void *const target,
+                          EventHandler<S, P> handler) {
     auto handlers = events.find(event);
     if (handlers == events.end())
       SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Event does not exist: %s\n",
                    event.c_str());
     else
-      handlers->second.remove(handler);
+      handlers->second.remove(
+          std::pair<void *const, EventHandler<S, P>>(target, handler));
   }
 
   /**
    * `EmitEvent`
    *
-   *   Emits an event with a supplied payload.
+   *   Emits an event.
    */
-  void EmitEvent(std::string event, P &payload) {
+  void EmitEvent(std::string event) {
     auto handlers = events.find(event);
     if (handlers == events.end())
       SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Event does not exist: %s\n",
                    event.c_str());
     else {
-      for (EventHandler<S, P> handler : handlers->second)
-        handler(payload);
+      for (std::pair<void *const, EventHandler<S, P>> handler :
+           handlers->second) {
+        P payload = MakePayload(handler.first);
+        handler.second(payload);
+      }
     }
+  }
+
+  virtual P MakePayload(void *const target) {
+    return P(dynamic_cast<S *>(this), target);
   }
 };
 

@@ -86,14 +86,16 @@ public:
    *
    *   Adds an event handler for the `IsIdleChanged` event.
    */
-  void AddIsIdleChangedEventHandler(EventHandler<Machine> value);
+  void AddIsIdleChangedEventHandler(void *const target,
+                                    EventHandler<Machine> handler);
 
   /**
    * `RemoveIsIdleChangedEventHandler`
    *
    *   Removes an event handler for the `IsIdleChanged` event.
    */
-  void RemoveIsIdleChangedEventHandler(EventHandler<Machine> value);
+  void RemoveIsIdleChangedEventHandler(void *const target,
+                                       EventHandler<Machine> handler);
 
   /**
    * `Update`
@@ -195,11 +197,11 @@ protected:
   virtual void OnUpdate(unsigned int) {}
 
   /**
-   * `OnIdleChanged`
+   * `OnIsIdleChanged`
    *
    *   Event when the machine changes from busy to idle.
    */
-  virtual void OnIdleChanged();
+  virtual void OnIsIdleChanged();
 };
 
 #endif
