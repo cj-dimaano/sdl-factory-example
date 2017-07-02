@@ -95,19 +95,13 @@ protected:
    */
   void OnUpdate(unsigned int dt);
 
+private:
   /**
-   * `OnBusy`
+   * `IdleChanged`
    *
-   *   Event when the machine changes from idle to busy.
+   *   Handles the idle changed event.
    */
-  void OnBusy();
-
-  /**
-   * `OnIdle`
-   *
-   *   Event when the machine changes from busy to idle.
-   */
-  void OnIdle();
+  static void IdleChanged(EventPayload<Machine> &payload);
 };
 
 #endif

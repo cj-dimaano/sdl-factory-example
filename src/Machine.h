@@ -10,14 +10,16 @@
 #define MACHINE_H
 
 #include "AnimatedSprite.h"
+#include "Events.h"
 #include <SDL2/SDL.h>
+#include <vector>
 
 /**
  * `Machine`
  *
  *   Abstract class for machines. Provides general functionality.
  */
-class Machine {
+class Machine : public virtual EventEmitter<Machine> {
 
   /**
    * `_busyDelay`
@@ -80,6 +82,20 @@ public:
   virtual ~Machine() {}
 
   /**
+   * `AddIsIdleChangedEventHandler`
+   *
+   *   Adds an event handler for the `IsIdleChanged` event.
+   */
+  void AddIsIdleChangedEventHandler(EventHandler<Machine> value);
+
+  /**
+   * `RemoveIsIdleChangedEventHandler`
+   *
+   *   Removes an event handler for the `IsIdleChanged` event.
+   */
+  void RemoveIsIdleChangedEventHandler(EventHandler<Machine> value);
+
+  /**
    * `Update`
    *
    *   Updates the machine.
@@ -94,11 +110,11 @@ public:
   virtual void Draw(SDL_Renderer *sdlRenderer) = 0;
 
   /**
-   * `IsReady`
+   * `IsIdle`
    *
    *   True if the machine is ready for work; otherwise, false.
    */
-  bool IsReady();
+  bool IsIdle();
 
   /**
    * `Start`
@@ -179,18 +195,11 @@ protected:
   virtual void OnUpdate(unsigned int) {}
 
   /**
-   * `OnBusy`
-   *
-   *   Event when the machine changes from idle to busy.
-   */
-  virtual void OnBusy() {}
-
-  /**
-   * `OnIdle`
+   * `OnIdleChanged`
    *
    *   Event when the machine changes from busy to idle.
    */
-  virtual void OnIdle() {}
+  virtual void OnIdleChanged();
 };
 
 #endif
