@@ -6,7 +6,7 @@ TARGET=factory
 CXX=clang++
 
 # C++ Compiler flags
-CXXFLAGS=-O3
+CXXFLAGS=-O3 -std=c++14
 
 # C Preprocessor flags
 CPPFLAGS=-I/usr/include
