@@ -10,7 +10,10 @@
 #define SORTMACHINESALGORITHM_H
 
 #include "IterativeAlgorithm.h"
-#include "SortMachinesState.h"
+#include "Machine.h"
+#include <SDL2/SDL.h>
+#include <functional>
+#include <vector>
 
 /**
  * `SortMachinesAlgorithm`
