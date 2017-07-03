@@ -8,8 +8,6 @@
 
 #include "SortMachinesAlgorithm.h"
 
-/* Macros *********************************************************************/
-
 /**
  * `PI`
  *
@@ -17,79 +15,69 @@
  */
 #define PI(x) (((x)-1) >> 1)
 
-/* Static function declarations ***********************************************/
-
-static void *loop1Begin(SortMachinesState &);
-static void *loop1End(SortMachinesState &);
-static void *loop2Begin(SortMachinesState &);
-static void *loop2End(SortMachinesState &);
-static void *loop3(SortMachinesState &);
-
-/* SortMachinesAlgorithm implementation ***************************************/
-
-bool SortMachinesAlgorithm::Begin() {
-  GetState().end = GetState().machines.size();
-  return (nextFn = reinterpret_cast<void *(*)(SortMachinesState &)>(
-              loop1Begin(GetState()))) != NULL;
+bool SortMachinesAlgorithm::Begin(std::vector<Machine *> machines,
+                                  SDL_Point origin) {
+  argMachines = machines;
+  argOrigin = origin;
+  end = machines.size();
+  return Loop1Begin();
 }
 
-bool SortMachinesAlgorithm::Next() {
-  return nextFn != NULL &&
-         (nextFn = reinterpret_cast<void *(*)(SortMachinesState &)>(
-              nextFn(GetState()))) != NULL;
-}
+bool SortMachinesAlgorithm::Next() { return nextFn(); }
 
-/* Static function definitions ************************************************/
-
-static void *loop1Begin(SortMachinesState &state) {
-  if (state.end > 0) {
-    state.i = 1;
-    return loop2Begin(state);
+bool SortMachinesAlgorithm::Loop1Begin() {
+  if (end > 0) {
+    i = 1;
+    return Loop2Begin();
   }
-  state.SetResult(state.machines);
-  return NULL;
+  Return(argMachines);
+  nextFn = std::bind(&SortMachinesAlgorithm::Noop, this);
+  return false;
 }
 
-static void *loop1End(SortMachinesState &state) {
-  Machine *swap = state.machines[state.end - 1];
-  state.machines[state.end - 1] = state.machines[0];
-  state.machines[0] = swap;
-  state.end--;
-  return reinterpret_cast<void *>(&loop1Begin);
+bool SortMachinesAlgorithm::Loop1End() {
+  Machine *swap = argMachines[end - 1];
+  argMachines[end - 1] = argMachines[0];
+  argMachines[0] = swap;
+  end--;
+  nextFn = std::bind(&SortMachinesAlgorithm::Loop1Begin, this);
+  return true;
 }
 
-static void *loop2Begin(SortMachinesState &state) {
-  if (state.i < state.end) {
-    state.val = state.machines[state.i];
-    SDL_Point p = state.val->GetFactoryPoint();
-    int x = state.origin.x - p.x;
-    int y = state.origin.y - p.y;
-    state.valDist = x * x + y * y;
-    state.j = state.i;
-    return loop3(state);
+bool SortMachinesAlgorithm::Loop2Begin() {
+  if (i < end) {
+    val = argMachines[i];
+    SDL_Point p = val->GetFactoryPoint();
+    int x = argOrigin.x - p.x;
+    int y = argOrigin.y - p.y;
+    valDist = x * x + y * y;
+    j = i;
+    return Loop3();
   }
-  return loop1End(state);
+  return Loop1End();
 }
 
-static void *loop2End(SortMachinesState &state) {
-  state.machines[state.j] = state.val;
-  state.i++;
-  return reinterpret_cast<void *>(&loop2Begin);
+bool SortMachinesAlgorithm::Loop2End() {
+  argMachines[j] = val;
+  i++;
+  nextFn = std::bind(&SortMachinesAlgorithm::Loop2Begin, this);
+  return true;
 }
 
-static void *loop3(SortMachinesState &state) {
-  if (state.j > 0) {
-    state.k = PI(state.j);
-    SDL_Point p = state.machines[state.k]->GetFactoryPoint();
-    int x = state.origin.x - p.x;
-    int y = state.origin.y - p.y;
-    if (state.valDist > x * x + y * y) {
-      Machine *swap = state.machines[state.j];
-      state.machines[state.j] = state.machines[state.k];
-      state.machines[state.k] = swap;
-      state.j = state.k;
-      return reinterpret_cast<void *>(&loop3);
+bool SortMachinesAlgorithm::Loop3() {
+  if (j > 0) {
+    k = PI(j);
+    SDL_Point p = argMachines[k]->GetFactoryPoint();
+    int x = argOrigin.x - p.x;
+    int y = argOrigin.y - p.y;
+    if (valDist > x * x + y * y) {
+      Machine *swap = argMachines[j];
+      argMachines[j] = argMachines[k];
+      argMachines[k] = swap;
+      j = k;
+      // nextFn = &SortMachinesAlgorithm::Loop3;
+      return true;
     }
   }
-  return loop2End(state);
+  return Loop2End();
 }

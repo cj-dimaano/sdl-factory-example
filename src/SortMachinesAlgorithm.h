@@ -18,16 +18,35 @@
  *   Sorts a collection of machines based on distance using the heapsort
  *   algorithm.
  */
-class SortMachinesAlgorithm : public IterativeAlgorithm<SortMachinesState> {
+class SortMachinesAlgorithm
+    : public IterativeAlgorithm<std::vector<Machine *>, std::vector<Machine *>,
+                                SDL_Point> {
 
   /**
    * `nextFn`
    *
    *   Pointer to the next function.
    */
-  void *(*nextFn)(SortMachinesState &);
+  // void *(SortMachinesAlgorithm::*nextFn)();
+  std::function<bool()> nextFn;
+
+  int i;
+  int j;
+  int k;
+  Machine *val;
+  int valDist;
+  int end;
+  SDL_Point argOrigin;
+  std::vector<Machine *> argMachines;
 
 public:
+  SortMachinesAlgorithm(
+      std::function<void(std::vector<Machine *> &)> resultCallback)
+      : IterativeAlgorithm<std::vector<Machine *>, std::vector<Machine *>,
+                           SDL_Point>(resultCallback),
+        i(0), j(0), k(0), val(NULL), valDist(0), end(0), argOrigin(),
+        argMachines(), nextFn(std::bind(&SortMachinesAlgorithm::Noop, this)) {}
+
   /**
    * `Begin`
    *
@@ -36,7 +55,7 @@ public:
    * @returns
    *   True if there is a next iteration; otherwise, false.
    */
-  bool Begin();
+  bool Begin(std::vector<Machine *> machines, SDL_Point origin);
 
   /**
    * `Next`
@@ -48,7 +67,13 @@ public:
    */
   bool Next();
 
-protected:
+private:
+  bool Loop1Begin();
+  bool Loop1End();
+  bool Loop2Begin();
+  bool Loop2End();
+  bool Loop3();
+  bool Noop() { return false; }
 };
 
 #endif

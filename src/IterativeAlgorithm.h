@@ -9,6 +9,8 @@
 #ifndef ITERATIVEALGORITHM_H
 #define ITERATIVEALGORITHM_H
 
+#include <functional>
+
 /**
  * `IterativeAlgorithm`
  *
@@ -25,33 +27,34 @@
  *   iterative algorithm. This is particularly useful for game objects that need
  *   to process data in an iterative manner, such as calculating the shortest
  *   path.
- *
- * @param S
- *   The iterative state class.
  */
-template <class S> class IterativeAlgorithm {
+template <class R, class... Args> class IterativeAlgorithm {
 
   /**
-   * `_state`
+   * `_resultCallback`
    *
-   *   The state of the algorithm at each iteration.
+   *   The function to be called when the result is ready.
    */
-  S _state;
+  std::function<void(R &)> _resultCallback;
 
 public:
+  /**
+   * `IterativeAlgorithm`
+   *
+   *   Constructor.
+   *
+   * @param resultCallback
+   *   The function to be called when the result is ready.
+   */
+  IterativeAlgorithm(std::function<void(R &)> resultCallback)
+      : _resultCallback(resultCallback) {}
+
   /**
    * `~IterativeAlgorithm`
    *
    *   Virtual destructor.
    */
   virtual ~IterativeAlgorithm() {}
-
-  /**
-   * `GetState`
-   *
-   *   Gets a reference to the iterative state.
-   */
-  S &GetState() { return _state; }
 
   /**
    * `Begin`
@@ -61,7 +64,7 @@ public:
    * @returns
    *   True if there is a next iteration; otherwise, false.
    */
-  virtual bool Begin() { return false; }
+  virtual bool Begin(Args... args) { return false; }
 
   /**
    * `Next`
@@ -72,6 +75,14 @@ public:
    *   True if there is a next iteration; otherwise, false.
    */
   virtual bool Next() { return false; }
+
+protected:
+  /**
+   * `Return`
+   *
+   *   Returns the result to the caller.
+   */
+  void Return(R result) { _resultCallback(result); }
 };
 
 #endif
