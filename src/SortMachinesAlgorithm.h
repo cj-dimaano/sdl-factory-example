@@ -43,12 +43,20 @@ class SortMachinesAlgorithm
   std::vector<Machine *> argMachines;
 
 public:
+  /**
+   * `SortMachinesAlgorithm`
+   *
+   *   Constructor.
+   *
+   * @param resultCallback
+   *   The callback to be called when the result of the algorithm is ready.
+   */
   SortMachinesAlgorithm(
       std::function<void(std::vector<Machine *> &)> resultCallback)
       : IterativeAlgorithm<std::vector<Machine *>, std::vector<Machine *>,
                            SDL_Point>(resultCallback),
         i(0), j(0), k(0), val(NULL), valDist(0), end(0), argOrigin(),
-        argMachines(), nextFn(std::bind(&SortMachinesAlgorithm::Noop, this)) {}
+        argMachines(), nextFn(&SortMachinesAlgorithm::Noop) {}
 
   /**
    * `Begin`
@@ -76,7 +84,7 @@ private:
   bool Loop2Begin();
   bool Loop2End();
   bool Loop3();
-  bool Noop() { return false; }
+  static bool Noop() { return false; }
 };
 
 #endif

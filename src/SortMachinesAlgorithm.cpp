@@ -31,7 +31,7 @@ bool SortMachinesAlgorithm::Loop1Begin() {
     return Loop2Begin();
   }
   Return(argMachines);
-  nextFn = std::bind(&SortMachinesAlgorithm::Noop, this);
+  nextFn = &SortMachinesAlgorithm::Noop;
   return false;
 }
 
