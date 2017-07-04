@@ -7,6 +7,7 @@
 *******************************************************************************/
 
 #include "StructureMachine.h"
+#include <functional>
 
 static void SetRegionPoint(SDL_Rect &dst, const int x, const int y) {
   dst.x = x;
@@ -25,9 +26,9 @@ StructureMachine::StructureMachine(SDL_Texture *const spritesheet,
       _progressSprite(spritesheet, progressSpriteRegion, drawRegion, 16, 16, 10,
                       100),
       _busySpriteRegion(busySpriteRegion), _idleSpriteRegion(idleSpriteRegion) {
-  AddIsIdleChangedEventHandler(static_cast<void *>(this),
-                               &StructureMachine::IsIdleChanged);
-  EventPayload<Machine> payload = MakePayload(static_cast<void *>(this));
+  EventPayload<Machine> payload(this);
+  AddIsIdleChangedEventHandler(
+      std::bind(&StructureMachine::IsIdleChanged, this, payload));
   IsIdleChanged(payload);
 }
 
@@ -51,16 +52,15 @@ void StructureMachine::OnUpdate(unsigned int dt) {
 }
 
 void StructureMachine::IsIdleChanged(EventPayload<Machine> &payload) {
-  StructureMachine *source = static_cast<StructureMachine *>(payload.source);
-  if (source->IsIdle()) {
-    source->_progressSprite.SetFramesRegionPoint(48, 64);
-    source->_progressSprite.SetFrameCount(2);
-    source->_progressSprite.Play();
-    source->GetMachineSprite().SetFramesRegion(source->_idleSpriteRegion);
+  if (IsIdle()) {
+    _progressSprite.SetFramesRegionPoint(48, 64);
+    _progressSprite.SetFrameCount(2);
+    _progressSprite.Play();
+    GetMachineSprite().SetFramesRegion(_idleSpriteRegion);
   } else {
-    source->_progressSprite.SetFramesRegionPoint(48, 0);
-    source->_progressSprite.SetFrameCount(10);
-    source->_progressSprite.Pause();
-    source->GetMachineSprite().SetFramesRegion(source->_busySpriteRegion);
+    _progressSprite.SetFramesRegionPoint(48, 0);
+    _progressSprite.SetFrameCount(10);
+    _progressSprite.Pause();
+    GetMachineSprite().SetFramesRegion(_busySpriteRegion);
   }
 }

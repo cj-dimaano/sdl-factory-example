@@ -12,6 +12,7 @@
 #include "AnimatedSprite.h"
 #include "Events.h"
 #include <SDL2/SDL.h>
+#include <functional>
 #include <vector>
 
 /**
@@ -86,16 +87,19 @@ public:
    *
    *   Adds an event handler for the `IsIdleChanged` event.
    */
-  void AddIsIdleChangedEventHandler(void *const target,
-                                    EventHandler<Machine> handler);
+  void AddIsIdleChangedEventHandler(
+      std::function<void(EventPayload<Machine> &)> handler);
 
   /**
    * `RemoveIsIdleChangedEventHandler`
    *
    *   Removes an event handler for the `IsIdleChanged` event.
+   *
+   * @description
+   *   See description of `RemoveEventHandler` from `Events.h`.
    */
-  void RemoveIsIdleChangedEventHandler(void *const target,
-                                       EventHandler<Machine> handler);
+  // void RemoveIsIdleChangedEventHandler(
+  //     std::function<void(EventPayload<Machine> &)> handler);
 
   /**
    * `Update`

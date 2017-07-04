@@ -18,15 +18,15 @@ Machine::Machine(AnimatedSprite sprite, SDL_Point factoryPoint,
   _sprite.Play();
 }
 
-void Machine::AddIsIdleChangedEventHandler(void *const target,
-                                           EventHandler<Machine> handler) {
-  AddEventHandler(IS_IDLE_CHANGED_EVENT, target, handler);
+void Machine::AddIsIdleChangedEventHandler(
+    std::function<void(EventPayload<Machine> &)> handler) {
+  AddEventHandler(IS_IDLE_CHANGED_EVENT, handler);
 }
 
-void Machine::RemoveIsIdleChangedEventHandler(void *const target,
-                                              EventHandler<Machine> handler) {
-  RemoveEventHandler(IS_IDLE_CHANGED_EVENT, target, handler);
-}
+// void Machine::RemoveIsIdleChangedEventHandler(
+//     std::function<void(EventPayload<Machine> &)> handler) {
+//   RemoveEventHandler(IS_IDLE_CHANGED_EVENT, handler);
+// }
 
 void Machine::Update(unsigned int dt) {
   _busyTick += (_isPaused || IsIdle() ? 0 : dt);
@@ -71,4 +71,7 @@ void Machine::SetDrawPoint(const int x, const int y) {
 
 AnimatedSprite &Machine::GetMachineSprite() { return _sprite; }
 
-void Machine::OnIsIdleChanged() { EmitEvent(IS_IDLE_CHANGED_EVENT); }
+void Machine::OnIsIdleChanged() {
+  EventPayload<Machine> payload(this);
+  EmitEvent(IS_IDLE_CHANGED_EVENT, payload);
+}
