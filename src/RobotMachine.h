@@ -95,7 +95,8 @@ public:
    * @param factoryPoint
    *   The factory coordinates of the machine.
    */
-  RobotMachine(SDL_Texture *spritesheet, SDL_Rect drawRegion, SDL_Point factoryPoint);
+  RobotMachine(SDL_Texture *spritesheet, SDL_Rect drawRegion,
+               SDL_Point factoryPoint);
 
   /**
    * `AddHasTargetChangedEventHandler`
