@@ -83,6 +83,7 @@ void RobotMachine::OnUpdate(unsigned int dt) {
       }
     }
   }
+  _pickTarget.Next();
 }
 
 void RobotMachine::SetTargetPath(
