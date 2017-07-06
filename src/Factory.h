@@ -58,11 +58,25 @@ class Factory {
   std::vector<ConsumerMachine> consumers;
 
   /**
+   * `candidateConsumers`
+   *
+   *   Candidate target consumer machines.
+   */
+  std::vector<StructureMachine *> candidateConsumers;
+
+  /**
    * `producers`
    *
    *   The set of producer machines.
    */
   std::vector<ProducerMachine> producers;
+
+  /**
+   * `candidateProducers`
+   *
+   *   Candidate target producer machines.
+   */
+   std::vector<StructureMachine *> candidateProducers;
 
   /**
    * `robots`
@@ -131,4 +145,26 @@ public:
    *   Adds a robot machine to the factory at the given factory coordinate.
    */
   void AddRobotMachine(int x, int y);
+
+private:
+  /**
+   * `HasTargetChanged`
+   *
+   *   Handles the target changed event.
+   */
+  void HasTargetChanged(EventPayload<RobotMachine> &payload);
+
+  /**
+   * `ConsumerIsIdleChanged`
+   *
+   *   Handles the idle changed event for consumers.
+   */
+  void ConsumerIsIdleChanged(EventPayload<Machine> &payload);
+
+  /**
+   * `ProducerIsIdleChanged`
+   *
+   *   Handles the idle changed event for producers.
+   */
+  void ProducerIsIdleChanged(EventPayload<Machine> &payload);
 };
