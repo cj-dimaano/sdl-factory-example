@@ -112,7 +112,7 @@ public:
    *
    *   Draws the machine on the given renderer.
    */
-  virtual void Draw(SDL_Renderer *sdlRenderer) = 0;
+  virtual void Draw(SDL_Renderer *sdlRenderer);
 
   /**
    * `IsIdle`

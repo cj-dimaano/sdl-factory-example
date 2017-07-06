@@ -38,6 +38,8 @@ void Machine::Update(unsigned int dt) {
   OnUpdate(dt);
 }
 
+void Machine::Draw(SDL_Renderer *sdlRenderer) { _sprite.Draw(sdlRenderer); }
+
 bool Machine::IsIdle() { return _busyTick >= _busyDelay; }
 
 void Machine::Start() { _isPaused = false; }
