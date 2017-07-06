@@ -20,7 +20,7 @@
  *
  *   Abstract class for machines. Provides general functionality.
  */
-class Machine : public virtual EventEmitter<Machine> {
+class Machine : private EventEmitter<Machine> {
 
   /**
    * `_busyDelay`

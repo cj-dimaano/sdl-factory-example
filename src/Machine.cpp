@@ -8,7 +8,7 @@
 
 #include "Machine.h"
 
-#define IS_IDLE_CHANGED_EVENT "isIdleChanged"
+#define IS_IDLE_CHANGED_EVENT "Machine::IsIdleChanged"
 
 Machine::Machine(AnimatedSprite sprite, SDL_Point factoryPoint,
                  unsigned int busyDelay)
