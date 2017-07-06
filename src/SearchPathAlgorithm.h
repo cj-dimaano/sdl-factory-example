@@ -30,6 +30,9 @@
  *
  *   The heuristic cost from each point to the target point is simply the
  *   distance between the two points (without calculating the square root).
+ *
+ *   The result of the algorithm is a stack of points representing the path from
+ *   and including the start point to the goal point.
  */
 class SearchPathAlgorithm
     : public IterativeAlgorithm<std::vector<SDL_Point>, SDL_Point, SDL_Point> {
