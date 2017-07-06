@@ -42,7 +42,7 @@ RobotMachine::RobotMachine(SDL_Texture *spritesheet, SDL_Rect drawRegion,
           std::bind(&RobotMachine::SetTargetPath, this,
                     std::pair<StructureMachine *, std::vector<SDL_Point>>()),
           &getNeighbors),
-      _stepDelay(500), _stepTick(0), _isEmpty(true),
+      _stepDelay(500), _stepTick(0), _isEmpty(true), _isPickingTarget(false),
       _emptySpriteRegion(makeRect(0, 48, 32, 16)),
       _fullSpriteRegion(makeRect(0, 64, 32, 16)), _target(NULL) {
   EventEmitter<RobotMachine>::AddEvent(HAS_TARGET_CHANGED_EVENT);
@@ -58,6 +58,7 @@ void RobotMachine::AddHasTargetChangedEventHandler(
 }
 
 void RobotMachine::PickTarget(std::vector<StructureMachine *> candidates) {
+  _isPickingTarget = true;
   _pickTarget.Begin(GetFactoryPoint(), candidates);
 }
 
@@ -88,6 +89,7 @@ void RobotMachine::OnUpdate(unsigned int dt) {
 
 void RobotMachine::SetTargetPath(
     std::pair<StructureMachine *, std::vector<SDL_Point>> &targetPath) {
+  _isPickingTarget = false;
   _target = targetPath.first;
   _path = targetPath.second;
   OnHasTargetChanged();
@@ -95,6 +97,10 @@ void RobotMachine::SetTargetPath(
 
 void RobotMachine::IsIdleChanged(EventPayload<Machine> &) {
   if (IsIdle()) {
+    SDL_Point targetPoint = _target->GetFactoryPoint();
+    SDL_Point thisPoint = GetFactoryPoint();
+    if (targetPoint.x == thisPoint.x && targetPoint.y == thisPoint.y)
+      _target->Restart();
     _target = NULL;
     _isEmpty = !_isEmpty;
     GetMachineSprite().SetSpriteRegion(_isEmpty ? _emptySpriteRegion

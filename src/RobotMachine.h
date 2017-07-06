@@ -46,6 +46,13 @@ class RobotMachine : public Machine, private EventEmitter<RobotMachine> {
   bool _isEmpty;
 
   /**
+   * `_isPickingTarget`
+   *
+   *   Whether or not the robot is currently searching for a target.
+   */
+  bool _isPickingTarget;
+
+  /**
    * `_emptySpriteRegion`
    *
    *   The region of the sprite sheet for the empty robot.
@@ -122,6 +129,13 @@ public:
   void PickTarget(std::vector<StructureMachine *> candidates);
 
   /**
+   * `GetTarget`
+   *
+   *   Gets the current target of the robot.
+   */
+  StructureMachine *GetTarget() { return _target; }
+
+  /**
    * `HasTarget`
    *
    *   True if the robot has a target; otherwise, false.
@@ -134,6 +148,13 @@ public:
    *   True if the robot is emptyhanded; otherwise, false.
    */
   bool IsEmpty() { return _isEmpty; }
+
+  /**
+   * `IsPickingTarget`
+   *
+   *   True if the robot is searching for a target; otherwise, false.
+   */
+  bool IsPickingTarget() { return _isPickingTarget; }
 
   /**
    * `GetStepProgress`
