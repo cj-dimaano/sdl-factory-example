@@ -6,8 +6,7 @@
   <c.j.s.dimaano@gmail.com>
 *******************************************************************************/
 
-#ifndef PRODUCERMACHINE_H
-#define PRODUCERMACHINE_H
+#pragma once
 
 #include "StructureMachine.h"
 #include <SDL2/SDL.h>
@@ -37,5 +36,3 @@ public:
   ProducerMachine(SDL_Texture *const spritesheet, SDL_Rect drawRegion,
                   SDL_Point factoryPoint);
 };
-
-#endif

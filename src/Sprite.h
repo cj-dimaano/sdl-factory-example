@@ -6,8 +6,7 @@
   <c.j.s.dimaano@gmail.com>
 *******************************************************************************/
 
-#ifndef SPRITE_H
-#define SPRITE_H
+#pragma once
 
 #include <SDL2/SDL.h>
 
@@ -120,5 +119,3 @@ public:
    */
   void Draw(SDL_Renderer *const sdlRenderer);
 };
-
-#endif

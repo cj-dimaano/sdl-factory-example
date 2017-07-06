@@ -6,8 +6,7 @@
   <c.j.s.dimaano@gmail.com>
 *******************************************************************************/
 
-#ifndef SORTMACHINESALGORITHM_H
-#define SORTMACHINESALGORITHM_H
+#pragma once
 
 #include "IterativeAlgorithm.h"
 #include "Machine.h"
@@ -86,5 +85,3 @@ private:
   bool Loop3();
   static bool Noop() { return false; }
 };
-
-#endif

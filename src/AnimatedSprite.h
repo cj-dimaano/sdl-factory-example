@@ -6,8 +6,7 @@
   <c.j.s.dimaano@gmail.com>
 *******************************************************************************/
 
-#ifndef ANIMATEDSPRITE_H
-#define ANIMATEDSPRITE_H
+#pragma once
 
 #include "Sprite.h"
 #include <SDL2/SDL.h>
@@ -165,5 +164,3 @@ public:
    */
   void Update(unsigned int dt);
 };
-
-#endif

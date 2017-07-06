@@ -6,8 +6,7 @@
   <c.j.s.dimaano@gmail.com>
 *******************************************************************************/
 
-#ifndef SEARCHPATHALGORITHM_H
-#define SEARCHPATHALGORITHM_H
+#pragma once
 
 #include "IterativeAlgorithm.h"
 #include <SDL2/SDL.h>
@@ -148,5 +147,3 @@ private:
   bool SearchLoop2();
   bool ReconstructPath();
 };
-
-#endif

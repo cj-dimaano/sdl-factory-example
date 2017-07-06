@@ -6,8 +6,7 @@
   <c.j.s.dimaano@gmail.com>
 *******************************************************************************/
 
-#ifndef ROBOTMACHINE_H
-#define ROBOTMACHINE_H
+#pragma once
 
 #include "Events.h"
 #include "Machine.h"
@@ -176,5 +175,3 @@ private:
    */
   void IsIdleChanged(EventPayload<Machine> &payload);
 };
-
-#endif

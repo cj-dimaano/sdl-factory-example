@@ -6,8 +6,7 @@
   <c.j.s.dimaano@gmail.com>
 *******************************************************************************/
 
-#ifndef CONSUMERMACHINE_H
-#define CONSUMERMACHINE_H
+#pragma once
 
 #include "StructureMachine.h"
 #include <SDL2/SDL.h>
@@ -37,5 +36,3 @@ public:
   ConsumerMachine(SDL_Texture *const spritesheet, SDL_Rect drawRegion,
                   SDL_Point factoryPoint);
 };
-
-#endif

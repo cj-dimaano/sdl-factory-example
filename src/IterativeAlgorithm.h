@@ -6,8 +6,7 @@
   <c.j.s.dimaano@gmail.com>
 *******************************************************************************/
 
-#ifndef ITERATIVEALGORITHM_H
-#define ITERATIVEALGORITHM_H
+#pragma once
 
 #include <functional>
 
@@ -84,5 +83,3 @@ protected:
    */
   void Return(R result) { _resultCallback(result); }
 };
-
-#endif

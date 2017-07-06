@@ -6,8 +6,7 @@
   <c.j.s.dimaano@gmail.com>
 *******************************************************************************/
 
-#ifndef EVENTS_H
-#define EVENTS_H
+#pragma once
 
 #include <SDL2/SDL_log.h>
 #include <functional>
@@ -137,5 +136,3 @@ public:
     }
   }
 };
-
-#endif

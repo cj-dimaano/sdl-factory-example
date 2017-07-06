@@ -6,8 +6,7 @@
   <c.j.s.dimaano@gmail.com>
 *******************************************************************************/
 
-#ifndef STRUCTUREMACHINE_H
-#define STRUCTUREMACHINE_H
+#pragma once
 
 #include "AnimatedSprite.h"
 #include "Machine.h"
@@ -103,5 +102,3 @@ private:
    */
   void IsIdleChanged(EventPayload<Machine> &payload);
 };
-
-#endif

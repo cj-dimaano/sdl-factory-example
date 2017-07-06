@@ -6,8 +6,7 @@
   <c.j.s.dimaano@gmail.com>
 *******************************************************************************/
 
-#ifndef MACHINE_H
-#define MACHINE_H
+#pragma once
 
 #include "AnimatedSprite.h"
 #include "Events.h"
@@ -207,5 +206,3 @@ protected:
    */
   virtual void OnIsIdleChanged();
 };
-
-#endif

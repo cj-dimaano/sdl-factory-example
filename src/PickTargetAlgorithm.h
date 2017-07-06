@@ -6,8 +6,7 @@
   <c.j.s.dimaano@gmail.com>
 *******************************************************************************/
 
-#ifndef PICKTARGETALGORITHM_H
-#define PICKTARGETALGORITHM_H
+#pragma once
 
 #include "IterativeAlgorithm.h"
 #include "SearchPathAlgorithm.h"
@@ -106,5 +105,3 @@ private:
   static bool Noop() { return false; }
   void ReceivePath(std::vector<SDL_Point> &path);
 };
-
-#endif
