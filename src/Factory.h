@@ -76,7 +76,7 @@ class Factory {
    *
    *   Candidate target producer machines.
    */
-   std::vector<StructureMachine *> candidateProducers;
+  std::vector<StructureMachine *> candidateProducers;
 
   /**
    * `robots`
