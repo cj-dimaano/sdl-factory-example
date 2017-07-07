@@ -55,7 +55,7 @@ public:
       : IterativeAlgorithm<std::vector<Machine *>, std::vector<Machine *>,
                            SDL_Point>(resultCallback),
         i(0), j(0), k(0), val(NULL), valDist(0), end(0), argOrigin(),
-        argMachines(), nextFn(&SortMachinesAlgorithm::Noop) {}
+        argMachines(), nextFn([]() { return false; }) {}
 
   /**
    * `Begin`
@@ -83,5 +83,4 @@ private:
   bool Loop2Begin();
   bool Loop2End();
   bool Loop3();
-  static bool Noop() { return false; }
 };

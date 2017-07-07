@@ -31,7 +31,7 @@ bool SortMachinesAlgorithm::Loop1Begin() {
     return Loop2Begin();
   }
   Return(argMachines);
-  nextFn = &SortMachinesAlgorithm::Noop;
+  nextFn = []() { return false; };
   return false;
 }
 
@@ -40,7 +40,7 @@ bool SortMachinesAlgorithm::Loop1End() {
   argMachines[end - 1] = argMachines[0];
   argMachines[0] = swap;
   end--;
-  nextFn = std::bind(&SortMachinesAlgorithm::Loop1Begin, this);
+  nextFn = [this]() { return this->Loop1Begin(); };
   return true;
 }
 
@@ -60,7 +60,7 @@ bool SortMachinesAlgorithm::Loop2Begin() {
 bool SortMachinesAlgorithm::Loop2End() {
   argMachines[j] = val;
   i++;
-  nextFn = std::bind(&SortMachinesAlgorithm::Loop2Begin, this);
+  nextFn = [this]() { return this->Loop2Begin(); };
   return true;
 }
 
