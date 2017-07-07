@@ -6,7 +6,7 @@
   <c.j.s.dimaano@gmail.com>
 *******************************************************************************/
 
-#include "AnimatedSprite.h"
+#include "Factory.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -37,6 +37,13 @@ static SDL_Renderer *sdlRenderer = NULL;
  *   The spritesheet for the factory.
  */
 static SDL_Texture *factorySpritesheet = NULL;
+
+/**
+ * `factory`
+ *
+ *   _The_ factory.
+ */
+static Factory *factory = NULL;
 
 /* Function declarations ******************************************************/
 
@@ -139,6 +146,26 @@ static bool init() {
     return false;
   }
 
+  /*** Create the factory. ***/
+  factory = new Factory(factorySpritesheet, 0, 0, 15, 11);
+
+  /*** Add consumers. ***/
+  factory->AddConsumerMachine(1, 0);
+  factory->AddConsumerMachine(4, 0);
+  factory->AddConsumerMachine(7, 0);
+  factory->AddConsumerMachine(10, 0);
+  factory->AddConsumerMachine(13, 0);
+
+  /*** Add producers. ***/
+  factory->AddProducerMachine(1, 9);
+  factory->AddProducerMachine(4, 9);
+  factory->AddProducerMachine(7, 9);
+  factory->AddProducerMachine(10, 9);
+  factory->AddProducerMachine(13, 9);
+
+  /*** Add robots. ***/
+  factory->AddRobotMachine(7, 5);
+
   return true;
 }
 
@@ -148,6 +175,12 @@ static bool init() {
  *   Frees resources and shuts down SDL.
  */
 static void close() {
+
+  /*** Delete the factory. ***/
+  if (factory != NULL) {
+    delete factory;
+    factory = NULL;
+  }
 
   /*** Destroy the texture. ***/
   if (factorySpritesheet != NULL) {
@@ -172,10 +205,11 @@ static void close() {
   SDL_Quit();
 }
 
-static void update(unsigned int dt) {}
+static void update(unsigned int dt) { factory->Update(dt); }
 
 static void draw() {
   SDL_RenderClear(sdlRenderer);
+  factory->Draw(sdlRenderer);
   SDL_RenderPresent(sdlRenderer);
 }
 
