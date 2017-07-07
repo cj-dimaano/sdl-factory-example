@@ -27,11 +27,11 @@ class PickTargetAlgorithm
           std::vector<SDL_Point>> {
 
   /**
-   * `nextFn`
+   * `getNeighbors`
    *
-   *   The function to be called on the next iteration.
+   *   The function that returns valid neighbors from a given point.
    */
-  std::function<bool()> nextFn;
+  std::function<std::vector<SDL_Point>(SDL_Point)> getNeighbors;
 
   /**
    * `result`
@@ -60,7 +60,7 @@ class PickTargetAlgorithm
    *   The search path algorithm for calculating the path from the origin to
    *   each machine.
    */
-  SearchPathAlgorithm searchPath;
+  SearchPathAlgorithm *searchPath;
 
 public:
   /**
@@ -80,6 +80,13 @@ public:
           void(std::pair<StructureMachine *, std::vector<SDL_Point>> &)>
           resultCallback,
       std::function<std::vector<SDL_Point>(SDL_Point)> getNeighborsCallback);
+
+  /**
+   * `~PickTargetAlgorithm`
+   *
+   *   Destructor.
+   */
+  ~PickTargetAlgorithm();
 
   /**
    * `Begin`
@@ -102,6 +109,5 @@ public:
   bool Next();
 
 private:
-  static bool Noop() { return false; }
   void ReceivePath(std::vector<SDL_Point> &path);
 };
