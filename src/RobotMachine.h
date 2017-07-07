@@ -85,7 +85,7 @@ class RobotMachine : public Machine, private EventEmitter<RobotMachine> {
    *
    *   Picks a target from a collection of candidates.
    */
-  PickTargetAlgorithm _pickTarget;
+  PickTargetAlgorithm *_pickTarget;
 
 public:
   /**
@@ -104,6 +104,13 @@ public:
    */
   RobotMachine(SDL_Texture *spritesheet, SDL_Rect drawRegion,
                SDL_Point factoryPoint);
+
+  /**
+   * `~RobotMachine`
+   *
+   *   Destructor.
+   */
+  ~RobotMachine();
 
   /**
    * `AddHasTargetChangedEventHandler`
@@ -164,6 +171,15 @@ public:
    */
   double GetStepProgress() {
     return static_cast<double>(_stepTick) / static_cast<double>(_stepDelay);
+  }
+
+  /**
+   * `GetStep`
+   *
+   *   Gets the factory coordinate of the current step.
+   */
+  SDL_Point GetStep() {
+    return _path.empty() ? GetFactoryPoint() : _path.back();
   }
 
 protected:

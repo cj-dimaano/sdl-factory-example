@@ -11,12 +11,18 @@
 #define HAS_TARGET_CHANGED_EVENT "RobotMachine::HasTargetChanged"
 
 static SDL_Point makePoint(int x, int y) {
-  SDL_Point p = {x, y};
+  SDL_Point p;
+  p.x = x;
+  p.y = y;
   return p;
 }
 
 static SDL_Rect makeRect(int x, int y, int w, int h) {
-  SDL_Rect r = {x, y, w, h};
+  SDL_Rect r;
+  r.x = x;
+  r.y = y;
+  r.w = w;
+  r.h = h;
   return r;
 }
 
@@ -37,19 +43,21 @@ RobotMachine::RobotMachine(SDL_Texture *spritesheet, SDL_Rect drawRegion,
                            SDL_Point factoryPoint)
     : Machine(AnimatedSprite(spritesheet, makeRect(0, 48, 32, 16), drawRegion,
                              16, 16, 2, 100),
-              factoryPoint, 500),
-      _pickTarget(
-          std::bind(&RobotMachine::SetTargetPath, this,
-                    std::pair<StructureMachine *, std::vector<SDL_Point>>()),
-          &getNeighbors),
-      _stepDelay(500), _stepTick(0), _isEmpty(true), _isPickingTarget(false),
+              factoryPoint, 1000),
+      _pickTarget(new PickTargetAlgorithm(
+          [this](std::pair<StructureMachine *, std::vector<SDL_Point>>
+                     &targetPath) { this->SetTargetPath(targetPath); },
+          &getNeighbors)),
+      _stepDelay(100), _stepTick(0), _isEmpty(true), _isPickingTarget(false),
       _emptySpriteRegion(makeRect(0, 48, 32, 16)),
       _fullSpriteRegion(makeRect(0, 64, 32, 16)), _target(NULL) {
   EventEmitter<RobotMachine>::AddEvent(HAS_TARGET_CHANGED_EVENT);
   EventPayload<Machine> payload(this);
   AddIsIdleChangedEventHandler(
-      std::bind(&RobotMachine::IsIdleChanged, this, payload));
+      [this](EventPayload<Machine> &payload) { this->IsIdleChanged(payload); });
 }
+
+RobotMachine::~RobotMachine() { delete _pickTarget; }
 
 void RobotMachine::AddHasTargetChangedEventHandler(
     std::function<void(EventPayload<RobotMachine> &)> handler) {
@@ -59,7 +67,7 @@ void RobotMachine::AddHasTargetChangedEventHandler(
 
 void RobotMachine::PickTarget(std::vector<StructureMachine *> candidates) {
   _isPickingTarget = true;
-  _pickTarget.Begin(GetFactoryPoint(), candidates);
+  _pickTarget->Begin(GetFactoryPoint(), candidates);
 }
 
 void RobotMachine::OnHasTargetChanged() {
@@ -84,7 +92,7 @@ void RobotMachine::OnUpdate(unsigned int dt) {
       }
     }
   }
-  _pickTarget.Next();
+  _pickTarget->Next();
 }
 
 void RobotMachine::SetTargetPath(
@@ -103,7 +111,7 @@ void RobotMachine::IsIdleChanged(EventPayload<Machine> &) {
       _target->Restart();
     _target = NULL;
     _isEmpty = !_isEmpty;
-    GetMachineSprite().SetSpriteRegion(_isEmpty ? _emptySpriteRegion
+    GetMachineSprite().SetFramesRegion(_isEmpty ? _emptySpriteRegion
                                                 : _fullSpriteRegion);
     OnHasTargetChanged();
   }
