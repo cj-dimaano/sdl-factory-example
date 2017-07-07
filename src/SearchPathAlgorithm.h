@@ -36,16 +36,16 @@
 class SearchPathAlgorithm
     : public IterativeAlgorithm<std::vector<SDL_Point>, SDL_Point, SDL_Point> {
   struct SDL_PointHash {
-    std::size_t operator()(SDL_Point const &value) const;
+    std::size_t operator()(const SDL_Point value) const;
   };
   struct SDL_PointCompare {
     SDL_PointCompare(const SearchPathAlgorithm &ownerAlgorithm)
         : owner(ownerAlgorithm) {}
-    bool operator()(const SDL_Point &lhs, const SDL_Point &rhs) const;
+    bool operator()(const SDL_Point lhs, const SDL_Point rhs) const;
     const SearchPathAlgorithm &owner;
   };
   struct SDL_PointEqual {
-    bool operator()(const SDL_Point &lhs, const SDL_Point &rhs) const;
+    bool operator()(const SDL_Point lhs, const SDL_Point rhs) const;
   };
   struct PriorityQueue
       : public std::priority_queue<SDL_Point, std::vector<SDL_Point>,
@@ -66,11 +66,18 @@ class SearchPathAlgorithm
                          SearchPathAlgorithm::SDL_PointEqual>;
 
   /**
+   * `loops`
+   *
+   *   The array of loop headers.
+   */
+  std::function<bool()> loops[4];
+
+  /**
    * `nextFn`
    *
    *   The next function to be called.
    */
-  std::function<bool()> nextFn;
+  std::function<bool()> *nextFn;
 
   /**
    * `getNeighbors`
@@ -79,6 +86,7 @@ class SearchPathAlgorithm
    */
   std::function<std::vector<SDL_Point>(SDL_Point)> getNeighbors;
 
+  int i;
   SDL_Point argStart;
   SDL_Point argGoal;
   PriorityQueue openQueue;
@@ -89,7 +97,6 @@ class SearchPathAlgorithm
   PointMap<unsigned int> fScore;
   SDL_Point current;
   PointVector neighbors;
-  PointVector::iterator it;
   PointVector result;
 
 public:
@@ -107,11 +114,7 @@ public:
    */
   SearchPathAlgorithm(
       std::function<void(std::vector<SDL_Point> &)> resultCallback,
-      std::function<std::vector<SDL_Point>(SDL_Point)> getNeighborsFn)
-      : IterativeAlgorithm<std::vector<SDL_Point>, SDL_Point, SDL_Point>(
-            resultCallback),
-        getNeighbors(getNeighborsFn), nextFn(&SearchPathAlgorithm::Noop),
-        openQueue(*this) {}
+      std::function<std::vector<SDL_Point>(SDL_Point)> getNeighborsFn);
 
   /**
    * `Begin`
@@ -131,7 +134,7 @@ public:
    * @returns
    *   True if there is a next iteration; otherwise, false.
    */
-  bool Next() { return nextFn(); }
+  bool Next() { return (*nextFn)(); }
 
   /**
    * `CalcFScore`
@@ -141,9 +144,5 @@ public:
   int CalcFScore(const SDL_Point p) const;
 
 private:
-  static bool Noop() { return false; }
   int CalcDist(const SDL_Point a, const SDL_Point b) const;
-  bool SearchLoop1();
-  bool SearchLoop2();
-  bool ReconstructPath();
 };
