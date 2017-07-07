@@ -55,7 +55,7 @@ class Factory {
    *
    *   The set of consumer machines.
    */
-  std::vector<ConsumerMachine> consumers;
+  std::vector<ConsumerMachine *> consumers;
 
   /**
    * `candidateConsumers`
@@ -69,7 +69,7 @@ class Factory {
    *
    *   The set of producer machines.
    */
-  std::vector<ProducerMachine> producers;
+  std::vector<ProducerMachine *> producers;
 
   /**
    * `candidateProducers`
@@ -83,7 +83,7 @@ class Factory {
    *
    *   The set of robot machines.
    */
-  std::vector<RobotMachine> robots;
+  std::vector<RobotMachine *> robots;
 
 public:
   /**
@@ -107,6 +107,13 @@ public:
    *   The tile height of the factory.
    */
   Factory(SDL_Texture *factorySpritesheet, int x, int y, int width, int height);
+
+  /**
+   * `~Factory`
+   *
+   *   Destructor.
+   */
+  ~Factory();
 
   /**
    * `Update`
