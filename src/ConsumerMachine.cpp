@@ -18,4 +18,4 @@ ConsumerMachine::ConsumerMachine(SDL_Texture *const spritesheet,
     : StructureMachine(spritesheet, makeSDL_Rect(0, 16, 32, 16),
                        makeSDL_Rect(16, 16, 32, 16),
                        makeSDL_Rect(48, 0, 32, 80), drawRegion, factoryPoint,
-                       3000) {}
+                       15000) {}
