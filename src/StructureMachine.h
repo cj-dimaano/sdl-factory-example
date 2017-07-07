@@ -100,5 +100,5 @@ private:
    *
    *   Handles the idle changed event.
    */
-  void IsIdleChanged(EventPayload<Machine> &payload);
+  void IsIdleChanged();
 };

@@ -26,10 +26,9 @@ StructureMachine::StructureMachine(SDL_Texture *const spritesheet,
       _progressSprite(spritesheet, progressSpriteRegion, drawRegion, 16, 16, 10,
                       100),
       _busySpriteRegion(busySpriteRegion), _idleSpriteRegion(idleSpriteRegion) {
-  EventPayload<Machine> payload(this);
   AddIsIdleChangedEventHandler(
-      std::bind(&StructureMachine::IsIdleChanged, this, payload));
-  IsIdleChanged(payload);
+      [this](EventPayload<Machine> &) { this->IsIdleChanged(); });
+  IsIdleChanged();
 }
 
 void StructureMachine::Draw(SDL_Renderer *sdlRenderer) {
@@ -51,7 +50,7 @@ void StructureMachine::OnUpdate(unsigned int dt) {
     _progressSprite.SetFrame(9 * GetProgress() / 100);
 }
 
-void StructureMachine::IsIdleChanged(EventPayload<Machine> &payload) {
+void StructureMachine::IsIdleChanged() {
   if (IsIdle()) {
     _progressSprite.SetFramesRegionPoint(48, 64);
     _progressSprite.SetFrameCount(2);
