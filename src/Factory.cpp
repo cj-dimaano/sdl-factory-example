@@ -109,16 +109,10 @@ void Factory::AddRobotMachine(int x, int y) {
 
 void Factory::HasTargetChanged(EventPayload<RobotMachine> &payload) {
   bool isEmpty = payload.source->IsEmpty();
-  std::vector<StructureMachine *> *candidates =
+  std::list<StructureMachine *> *candidates =
       isEmpty ? &candidateProducers : &candidateConsumers;
   if (payload.source->HasTarget()) {
-    StructureMachine *target = payload.source->GetTarget();
-    std::vector<StructureMachine *> newCandidates;
-    for (StructureMachine *m : *candidates) {
-      if (m != target)
-        newCandidates.push_back(m);
-    }
-    (*candidates).swap(newCandidates);
+    candidates->remove(payload.source->GetTarget());
     for (RobotMachine *r : robots) {
       if (r->IsPickingTarget() && r->IsEmpty() == isEmpty)
         r->PickTarget(*candidates);

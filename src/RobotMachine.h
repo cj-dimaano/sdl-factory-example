@@ -133,7 +133,7 @@ public:
    *   It is recommended that the factory recall this method if the collection
    *   of candidates changes.
    */
-  void PickTarget(std::vector<StructureMachine *> candidates);
+  void PickTarget(std::list<StructureMachine *> candidates);
 
   /**
    * `GetTarget`

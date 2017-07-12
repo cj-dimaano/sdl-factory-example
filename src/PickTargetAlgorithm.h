@@ -13,6 +13,7 @@
 #include "StructureMachine.h"
 #include <SDL2/SDL.h>
 #include <functional>
+#include <list>
 #include <utility>
 #include <vector>
 
@@ -45,7 +46,7 @@ class PickTargetAlgorithm
    *
    *   The collection of candidate machines from which to choose.
    */
-  std::vector<StructureMachine *> candidatesArg;
+  std::list<StructureMachine *> candidatesArg;
 
   /**
    * `originArg`
@@ -96,7 +97,7 @@ public:
    * @returns
    *   True if there is a next iteration; otherwise, false.
    */
-  bool Begin(SDL_Point origin, std::vector<StructureMachine *> candidates);
+  bool Begin(SDL_Point origin, std::list<StructureMachine *> candidates);
 
   /**
    * `Next`

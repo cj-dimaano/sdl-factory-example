@@ -23,7 +23,7 @@ PickTargetAlgorithm::PickTargetAlgorithm(
 PickTargetAlgorithm::~PickTargetAlgorithm() { delete searchPath; }
 
 bool PickTargetAlgorithm::Begin(SDL_Point origin,
-                                std::vector<StructureMachine *> candidates) {
+                                std::list<StructureMachine *> candidates) {
   originArg = origin;
   candidatesArg = candidates;
   result.first = NULL;

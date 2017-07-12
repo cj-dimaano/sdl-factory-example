@@ -65,7 +65,7 @@ void RobotMachine::AddHasTargetChangedEventHandler(
                                               handler);
 }
 
-void RobotMachine::PickTarget(std::vector<StructureMachine *> candidates) {
+void RobotMachine::PickTarget(std::list<StructureMachine *> candidates) {
   _isPickingTarget = true;
   _pickTarget->Begin(GetFactoryPoint(), candidates);
 }
@@ -92,7 +92,8 @@ void RobotMachine::OnUpdate(unsigned int dt) {
       }
     }
   }
-  _pickTarget->Next();
+  if (!_pickTarget->Next() && _path.empty() && _target == NULL)
+    OnHasTargetChanged();
 }
 
 void RobotMachine::SetTargetPath(

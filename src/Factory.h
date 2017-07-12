@@ -13,6 +13,7 @@
 #include "RobotMachine.h"
 #include "Sprite.h"
 #include <SDL2/SDL.h>
+#include <list>
 #include <vector>
 
 /**
@@ -62,7 +63,7 @@ class Factory {
    *
    *   Candidate target consumer machines.
    */
-  std::vector<StructureMachine *> candidateConsumers;
+  std::list<StructureMachine *> candidateConsumers;
 
   /**
    * `producers`
@@ -76,7 +77,7 @@ class Factory {
    *
    *   Candidate target producer machines.
    */
-  std::vector<StructureMachine *> candidateProducers;
+  std::list<StructureMachine *> candidateProducers;
 
   /**
    * `robots`
