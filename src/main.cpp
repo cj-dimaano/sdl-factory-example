@@ -151,19 +151,20 @@ static bool init() {
 
   /*** Add consumers. ***/
   factory->AddConsumerMachine(1, 0);
-  factory->AddConsumerMachine(4, 0);
+  // factory->AddConsumerMachine(4, 0);
   factory->AddConsumerMachine(7, 0);
-  factory->AddConsumerMachine(10, 0);
+  // factory->AddConsumerMachine(10, 0);
   factory->AddConsumerMachine(13, 0);
 
   /*** Add producers. ***/
   factory->AddProducerMachine(1, 9);
-  factory->AddProducerMachine(4, 9);
+  // factory->AddProducerMachine(4, 9);
   factory->AddProducerMachine(7, 9);
-  factory->AddProducerMachine(10, 9);
+  // factory->AddProducerMachine(10, 9);
   factory->AddProducerMachine(13, 9);
 
   /*** Add robots. ***/
+  factory->AddRobotMachine(7, 5);
   factory->AddRobotMachine(7, 5);
 
   return true;

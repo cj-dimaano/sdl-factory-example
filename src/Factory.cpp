@@ -24,21 +24,6 @@ static SDL_Point makePoint(int x, int y) {
   return p;
 }
 
-static void RefreshCandidates(std::vector<StructureMachine *> &candidates,
-                              std::vector<RobotMachine *> &robots,
-                              StructureMachine *remove, bool isEmpty) {
-  std::vector<StructureMachine *> newCandidates;
-  for (StructureMachine *m : candidates) {
-    if (m != remove)
-      newCandidates.push_back(m);
-  }
-  candidates.swap(newCandidates);
-  for (RobotMachine *r : robots) {
-    if (r->IsPickingTarget() && r->IsEmpty() == isEmpty)
-      r->PickTarget(candidates);
-  }
-}
-
 Factory::Factory(SDL_Texture *factorySpritesheet, int x, int y, int width,
                  int height)
     : spritesheet(factorySpritesheet),
@@ -124,12 +109,22 @@ void Factory::AddRobotMachine(int x, int y) {
 
 void Factory::HasTargetChanged(EventPayload<RobotMachine> &payload) {
   bool isEmpty = payload.source->IsEmpty();
-  if (payload.source->HasTarget())
-    RefreshCandidates(isEmpty ? candidateProducers : candidateConsumers, robots,
-                      payload.source->GetTarget(), isEmpty);
-  else
-    payload.source->PickTarget(isEmpty ? candidateProducers
-                                       : candidateConsumers);
+  std::vector<StructureMachine *> *candidates =
+      isEmpty ? &candidateProducers : &candidateConsumers;
+  if (payload.source->HasTarget()) {
+    StructureMachine *target = payload.source->GetTarget();
+    std::vector<StructureMachine *> newCandidates;
+    for (StructureMachine *m : *candidates) {
+      if (m != target)
+        newCandidates.push_back(m);
+    }
+    (*candidates).swap(newCandidates);
+    for (RobotMachine *r : robots) {
+      if (r->IsPickingTarget() && r->IsEmpty() == isEmpty)
+        r->PickTarget(*candidates);
+    }
+  } else
+    payload.source->PickTarget(*candidates);
 }
 
 void Factory::ConsumerIsIdleChanged(EventPayload<Machine> &payload) {
