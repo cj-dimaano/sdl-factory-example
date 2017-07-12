@@ -47,7 +47,7 @@ void StructureMachine::OnUpdate(unsigned int dt) {
   if (IsIdle())
     _progressSprite.Update(dt);
   else
-    _progressSprite.SetFrame(9 * GetProgress() / 100);
+    _progressSprite.SetFrame(8 * GetProgress() / 100);
 }
 
 void StructureMachine::IsIdleChanged() {
