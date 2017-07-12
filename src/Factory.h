@@ -154,6 +154,33 @@ public:
    */
   void AddRobotMachine(int x, int y);
 
+  /**
+   * `GetDrawWidth`
+   *
+   *   Gets the draw width of the factory.
+   */
+  int GetDrawWidth() { return factorySize.x * tile.GetDrawRegion().w; }
+
+  /**
+   * `GetDrawHeight`
+   *
+   *   Gets the draw height of the factory
+   *
+   *   The draw region of the tile sprite actually contains two tiles stacked
+   *   vertically; hence, the division by 2.
+   */
+  int GetDrawHeight() { return factorySize.y * tile.GetDrawRegion().h / 2; }
+
+  /**
+   * `SetDrawPoint`
+   *
+   *   Sets the draw point of the factory.
+   */
+  void SetDrawPoint(int x, int y) {
+    drawPoint.x = x;
+    drawPoint.y = y;
+  }
+
 private:
   /**
    * `HasTargetChanged`

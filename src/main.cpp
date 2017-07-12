@@ -148,6 +148,8 @@ static bool init() {
 
   /*** Create the factory. ***/
   factory = new Factory(factorySpritesheet, 0, 0, 15, 11);
+  factory->SetDrawPoint((SCREEN_WIDTH - factory->GetDrawWidth()) / 2,
+                       (SCREEN_HEIGHT - factory->GetDrawHeight()) / 2);
 
   /*** Add consumers. ***/
   factory->AddConsumerMachine(1, 0);
