@@ -1,12 +1,12 @@
 # SDL Factory Example
 
-This is a remake of an old school project using SDL 2. The project requirements were to simulate a
-factory with consumer and producer machines and a robot. The consumer and producer machines are
-stationary and work for a set time duration. The robot goes around the factory looking for a payload
-from a producer machine to be dropped off at a consumer machine. The robot can only carry one
-payload at a time, a producer machine can only produce one payload at a time, and a consumer machine
-can only consume one payload at a time. There were other minor requirements for the assignment, but
-this is the main idea behind the factory.
+This is a remake of an old project using SDL 2. The project requirements were to simulate a factory
+with consumer and producer machines and a robot. The consumer and producer machines are stationary
+and work for a set time duration. The robot goes around the factory looking for a payload from a
+producer machine to be dropped off at a consumer machine. The robot can only carry one payload at a
+time, a producer machine can only produce one payload at a time, and a consumer machine can only
+consume one payload at a time. There were other minor requirements for the assignment, but this is
+the main idea behind the factory.
 
 # Remarks
 
