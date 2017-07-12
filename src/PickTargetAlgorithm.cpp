@@ -13,7 +13,8 @@ PickTargetAlgorithm::PickTargetAlgorithm(
         resultCallback,
     std::function<std::vector<SDL_Point>(SDL_Point)> getNeighborsCallback)
     : IterativeAlgorithm<std::pair<StructureMachine *, std::vector<SDL_Point>>,
-                         SDL_Point, std::vector<SDL_Point>>(resultCallback),
+                         SDL_Point, std::vector<StructureMachine *>>(
+          resultCallback),
       getNeighbors(getNeighborsCallback),
       searchPath(new SearchPathAlgorithm(
           [this](std::vector<SDL_Point> &path) { this->ReceivePath(path); },

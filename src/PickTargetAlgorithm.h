@@ -24,7 +24,7 @@
 class PickTargetAlgorithm
     : public IterativeAlgorithm<
           std::pair<StructureMachine *, std::vector<SDL_Point>>, SDL_Point,
-          std::vector<SDL_Point>> {
+          std::vector<StructureMachine *>> {
 
   /**
    * `getNeighbors`
