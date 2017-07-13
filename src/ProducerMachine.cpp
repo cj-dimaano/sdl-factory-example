@@ -18,4 +18,4 @@ ProducerMachine::ProducerMachine(SDL_Texture *const spritesheet,
     : StructureMachine(spritesheet, makeSDL_Rect(0, 32, 32, 16),
                        makeSDL_Rect(16, 32, 32, 16),
                        makeSDL_Rect(48, 0, 32, 80), drawRegion, factoryPoint,
-                       3000) {}
+                       5000) {}
